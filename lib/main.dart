@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const appName = "Flutter Sample";
+const appName = "My Sample App";
 
 void main() => runApp(MyApp());
 
