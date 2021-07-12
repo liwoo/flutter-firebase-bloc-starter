@@ -7,27 +7,53 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:firebase_bloc_starter/main.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/app_bloc.dart';
+import 'package:firebase_bloc_starter/src/models/user.dart';
+import 'package:firebase_bloc_starter/src/screens/home.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
+  late AppBloc appBloc;
+  late User user;
+
+  setUpAll(() {
+    registerFallbackValue<AppEvent>(FakeAppEvent());
+    registerFallbackValue<AppState>(FakeAppState());
+  });
+
+  setUp(() {
+    appBloc = MockAppBloc();
+    user = MockUser();
+    when(() => user.email).thenReturn('test@gmail.com');
+    when(() => user.name).thenReturn('John Doe');
+    when(() => appBloc.state).thenReturn(AppState.authenticated(user));
+  });
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    // TODO: fix tests
-    await tester.pumpWidget(Text(""));
-
     const appName = "My Sample App";
 
-    // Verify that our counter starts at 0.
+    await tester.pumpWidget(
+      BlocProvider.value(
+        value: appBloc,
+        child: const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: HomeScreen()),
+      ),
+    );
+    expect(find.text('John Doe'), findsOneWidget);
     expect(find.text('Welcome to $appName'), findsOneWidget);
     expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    // await tester.tap(find.byIcon(Icons.add));
-    // await tester.pump();
-
-    // Verify that our counter has incremented.
-    // expect(find.text('0'), findsNothing);
-    // expect(find.text('1'), findsOneWidget);
   });
 }
+
+class MockAppBloc extends MockBloc<AppEvent, AppState> implements AppBloc {}
+
+class FakeAppEvent extends Fake implements AppEvent {}
+
+class FakeAppState extends Fake implements AppState {}
+
+class MockUser extends Mock implements User {}
