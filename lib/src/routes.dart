@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'screens/login.dart';
+import 'package:firebase_bloc_starter/src/screens/welcome.dart';
 import 'screens/home.dart';
 import 'blocs/app/app_bloc.dart';
 
@@ -10,6 +10,6 @@ List<Page> onGenerateAppViewPages(AppStatus state, List<Page<dynamic>> pages) {
       return [HomeScreen.page()];
     case AppStatus.unauthenticated:
     default:
-      return [LoginPage.page()];
+      return [WelcomePage.page()];
   }
 }

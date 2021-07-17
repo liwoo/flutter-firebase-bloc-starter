@@ -4,10 +4,10 @@ import 'package:formz/formz.dart';
 
 import '../../repositories/auth_repository/authentication_repository.dart';
 
-part 'login_state.dart';
+part 'register_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authenticationRepository) : super(const LoginState());
+class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit(this._authenticationRepository) : super(const RegisterState());
 
   final AuthenticationRepository _authenticationRepository;
 
