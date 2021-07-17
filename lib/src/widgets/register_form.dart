@@ -2,7 +2,7 @@ import 'package:firebase_bloc_starter/src/blocs/register/register_cubic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'google_button.dart';
 
 class RegisterForm extends StatelessWidget {
@@ -28,7 +28,7 @@ class RegisterForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Register",
+                AppLocalizations.of(context)!.register,
                 style: Theme.of(context).textTheme.headline5,
               ),
               const SizedBox(height: 16.0),

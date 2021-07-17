@@ -29,6 +29,23 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: AppLocalizations.of(context)!.home),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: AppLocalizations.of(context)!.notifications),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: AppLocalizations.of(context)!.settings)
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

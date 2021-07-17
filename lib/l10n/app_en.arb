@@ -1,3 +1,8 @@
 {
-    "appName": "My Sample App"
+    "appName": "My Sample App",
+    "login": "Login",
+    "register": "Register",
+    "home": "Home",
+    "notifications": "Notifications",
+    "settings": "Settings"
 }

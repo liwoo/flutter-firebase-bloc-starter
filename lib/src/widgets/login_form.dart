@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../blocs/login/login_cubit.dart';
 import 'google_button.dart';
 
@@ -28,7 +28,7 @@ class LoginForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Login",
+                AppLocalizations.of(context)!.login,
                 style: Theme.of(context).textTheme.headline5,
               ),
               const SizedBox(height: 16.0),
