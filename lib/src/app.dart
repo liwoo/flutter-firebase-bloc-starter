@@ -50,7 +50,10 @@ class AppView extends StatelessWidget {
           AppLocalizations.of(context)!.appName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: context.select((ThemeCubit cubit) => cubit.state ? darkTheme : lightTheme),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: context.select(
+          (ThemeCubit cubit) => cubit.state ? ThemeMode.dark : ThemeMode.light),
       home: FlowBuilder<AppStatus>(
         state: context.select((AppBloc bloc) => bloc.state.status),
         onGeneratePages: onGenerateAppViewPages,
