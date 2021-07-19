@@ -1,3 +1,5 @@
+import 'package:firebase_bloc_starter/src/blocs/app/theme_cubit.dart';
+import 'package:firebase_bloc_starter/src/themes.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,10 +23,15 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: _authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AppBloc(
-          authenticationRepository: _authenticationRepository,
-        ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => AppBloc(
+              authenticationRepository: _authenticationRepository,
+            ),
+          ),
+          BlocProvider(create: (_) => ThemeCubit(false))
+        ],
         child: const AppView(),
       ),
     );
@@ -43,6 +50,7 @@ class AppView extends StatelessWidget {
           AppLocalizations.of(context)!.appName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      theme: context.select((ThemeCubit cubit) => cubit.state ? darkTheme : lightTheme),
       home: FlowBuilder<AppStatus>(
         state: context.select((AppBloc bloc) => bloc.state.status),
         onGeneratePages: onGenerateAppViewPages,
