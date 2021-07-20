@@ -1,7 +1,7 @@
-part of 'login_cubit.dart';
+part of 'package:firebase_bloc_starter/src/blocs/register/register_cubic.dart';
 
-class LoginState extends Equatable {
-  const LoginState({
+class RegisterState extends Equatable {
+  const RegisterState({
     this.status = FormzStatus.pure,
   });
 
@@ -10,10 +10,10 @@ class LoginState extends Equatable {
   @override
   List<Object> get props => [status];
 
-  LoginState copyWith({
+  RegisterState copyWith({
     FormzStatus? status,
   }) {
-    return LoginState(
+    return RegisterState(
       status: status ?? this.status,
     );
   }
