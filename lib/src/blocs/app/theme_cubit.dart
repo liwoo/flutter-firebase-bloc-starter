@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 
-class ThemeCubit extends Cubit<bool> {
-  ThemeCubit(bool isDark) : super(false);
+class ThemeCubit extends Cubit<ThemeMode> {
+  ThemeCubit(ThemeMode theme) : super(theme);
 
-  void toggleTheme() => emit(!state);
+  void changeTheme(ThemeMode theme) => emit(theme);
 }
