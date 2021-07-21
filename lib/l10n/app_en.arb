@@ -4,5 +4,9 @@
     "register": "Register",
     "home": "Home",
     "notifications": "Notifications",
-    "settings": "Settings"
+    "settings": "Settings",
+
+    "system": "System Default",
+    "light": "Light",
+    "dark": "Dark"
 }

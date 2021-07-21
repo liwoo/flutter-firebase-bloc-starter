@@ -30,7 +30,7 @@ class App extends StatelessWidget {
               authenticationRepository: _authenticationRepository,
             ),
           ),
-          BlocProvider(create: (_) => ThemeCubit(false))
+          BlocProvider(create: (_) => ThemeCubit(ThemeMode.system))
         ],
         child: const AppView(),
       ),
@@ -52,8 +52,7 @@ class AppView extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: context.select(
-          (ThemeCubit cubit) => cubit.state ? ThemeMode.dark : ThemeMode.light),
+      themeMode: context.select((ThemeCubit cubit) => cubit.state),
       home: FlowBuilder<AppStatus>(
         state: context.select((AppBloc bloc) => bloc.state.status),
         onGeneratePages: onGenerateAppViewPages,
