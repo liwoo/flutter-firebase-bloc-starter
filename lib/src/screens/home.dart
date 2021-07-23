@@ -43,6 +43,7 @@ class HomeScreenContainer extends StatelessWidget {
         ),
         body: _pageNavigation[state],
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: state,
           onTap: (int index) =>
               context.read<BottomNavCubit>().updateIndex(index),

@@ -8,5 +8,9 @@
 
     "system": "System Default",
     "light": "Light",
-    "dark": "Dark"
+    "dark": "Dark",
+
+    "noteHint": "Note",
+    "taskHint": "Task",
+    "createTask": "Create Task"
 }

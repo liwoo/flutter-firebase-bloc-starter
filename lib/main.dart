@@ -1,3 +1,4 @@
+import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
@@ -13,5 +14,5 @@ void main() async {
   await Firebase.initializeApp();
   final authenticationRepository = AuthenticationRepository();
   await authenticationRepository.user.first;
-  runApp(App(authenticationRepository: authenticationRepository));
+  runApp(App(authenticationRepository: authenticationRepository, todosRepository: TodosRepository(),));
 }
