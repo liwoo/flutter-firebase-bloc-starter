@@ -22,10 +22,26 @@ class HomePage extends StatelessWidget {
           return LoadingIndicator();
         } else if (state is FilteredTodosLoadSuccess) {
           final todos = state.filteredTodos;
-          return ListView.builder(
+          return ReorderableListView.builder(
               itemCount: todos.length,
+              onReorder: (fromIndex, toIndex) {
+                BlocProvider.of<TodosBloc>(context)
+                    .add(TodosReorder(fromIndex, toIndex));
+              },
               itemBuilder: (context, index) {
-                return TodoItem(todo: todos[index],);
+                var todo = todos[index];
+                return ReorderableDragStartListener(
+                  index: index,
+                  key: Key("todo_ $index"),
+                  child: TodoItem(
+                    todo: todo,
+                    onCheckboxChanged: (bool? value) {
+                      BlocProvider.of<TodosBloc>(context).add(
+                        TodoUpdated(todo.copyWith(complete: !todo.complete)),
+                      );
+                    },
+                  ),
+                );
               });
         } else {
           return Text("empty");

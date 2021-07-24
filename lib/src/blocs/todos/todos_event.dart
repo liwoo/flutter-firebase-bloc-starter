@@ -46,6 +46,18 @@ class TodoDeleted extends TodosEvent {
   String toString() => 'TodoDeleted { todo: $todo }';
 }
 
+class TodosReorder extends TodosEvent {
+  final int from;
+  final int to;
+  const TodosReorder(this.from, this.to);
+
+  @override
+  List<Object> get props => [from, to];
+
+  @override
+  String toString() => 'TodosReorder { from: $from, to: $to }';
+}
+
 class ClearCompleted extends TodosEvent {}
 
 class ToggleAll extends TodosEvent {}

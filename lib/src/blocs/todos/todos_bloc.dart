@@ -23,6 +23,8 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       yield* _mapToggleAllToState();
     } else if (event is ClearCompleted) {
       yield* _mapClearCompletedToState();
+    } else if (event is TodosReorder) {
+      yield* _mapToReorder(event);
     }
   }
 
@@ -96,5 +98,23 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
     return todosRepository.saveTodos(
       todos.map((todo) => todo).toList(),
     );
+  }
+
+  Stream<TodosState> _mapToReorder(TodosReorder event) async* {
+    if (state is TodosLoadSuccess) {
+      int oldIndex = event.from;
+      int newIndex = event.to;
+
+      if (oldIndex < newIndex) {
+        newIndex -= 1;
+      }
+      final List<Todo> updatedTodos =
+          (state as TodosLoadSuccess).todos.toList();
+      final Todo item = updatedTodos.removeAt(oldIndex);
+      updatedTodos.insert(newIndex, item);
+
+      yield TodosLoadSuccess(updatedTodos);
+      _saveTodos(updatedTodos);
+    }
   }
 }
