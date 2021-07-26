@@ -3,6 +3,7 @@ import 'package:firebase_bloc_starter/src/blocs/filtered_todos/filtered_todos_st
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_bloc.dart';
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_event.dart';
 import 'package:firebase_bloc_starter/src/models/todo.dart';
+import 'package:firebase_bloc_starter/src/screens/details.dart';
 import 'package:firebase_bloc_starter/src/widgets/loading_indicator.dart';
 import 'package:firebase_bloc_starter/src/widgets/todo_item.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,9 @@ class HomePage extends StatelessWidget {
                       BlocProvider.of<TodosBloc>(context).add(
                         TodoUpdated(todo.copyWith(complete: !todo.complete)),
                       );
+                    },
+                    onTap: () {
+                      Navigator.of(context).push(DetailsPage.page(id: todo.id));
                     },
                   ),
                 );

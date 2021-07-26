@@ -12,5 +12,6 @@
 
     "noteHint": "Note",
     "taskHint": "Task",
-    "createTask": "Create Task"
+    "createTask": "Create Task",
+    "todoDetails": "Todo Details"
 }
