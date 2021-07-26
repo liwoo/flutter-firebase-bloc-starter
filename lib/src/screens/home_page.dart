@@ -9,7 +9,7 @@ import 'package:firebase_bloc_starter/src/widgets/todo_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'add_todo.dart';
+import 'add_edit_todo.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -53,12 +53,13 @@ class HomePage extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(AddTodoPage.page(onSave: (String task, String note) {
-            BlocProvider.of<TodosBloc>(context).add(
-              TodoAdded(Todo(task, note: note)),
-            );
-          }));
+          Navigator.of(context).push(AddEditTodoPage.page(
+              onSave: (String task, String note) {
+                BlocProvider.of<TodosBloc>(context).add(
+                  TodoAdded(Todo(task, note: note)),
+                );
+              },
+              editing: false));
         },
         child: Icon(Icons.add),
       ),
