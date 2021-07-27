@@ -61,3 +61,12 @@ class TodosReorder extends TodosEvent {
 class ClearCompleted extends TodosEvent {}
 
 class ToggleAll extends TodosEvent {}
+
+class TodosUpdated extends TodosEvent {
+  final List<Todo> todos;
+
+  const TodosUpdated(this.todos);
+
+  @override
+  List<Object> get props => [todos];
+}

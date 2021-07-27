@@ -60,6 +60,7 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
             ),
             TextFormField(
               initialValue: isEditing ? widget.todo?.note : '',
+              maxLines: 10,
               style: textTheme.subtitle1,
               decoration: InputDecoration(
                 hintText: AppLocalizations.of(context)!.noteHint,

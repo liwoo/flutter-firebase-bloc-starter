@@ -10,7 +10,7 @@
     "light": "Light",
     "dark": "Dark",
 
-    "noteHint": "Note",
+    "noteHint": "Note...",
     "taskHint": "Task",
     "createTask": "Create Task",
     "todoDetails": "Todo Details",

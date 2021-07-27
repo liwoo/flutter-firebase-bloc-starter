@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_event.dart';
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_state.dart';
@@ -6,6 +7,7 @@ import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_re
 
 class TodosBloc extends Bloc<TodosEvent, TodosState> {
   final TodosRepository todosRepository;
+  StreamSubscription? _todosSubscription;
 
   TodosBloc({required this.todosRepository}) : super(TodosLoadInProgress());
 
@@ -25,49 +27,28 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       yield* _mapClearCompletedToState();
     } else if (event is TodosReorder) {
       yield* _mapToReorder(event);
+    } else if (event is TodosUpdated) {
+      yield* _mapTodosUpdateToState(event);
     }
   }
 
   Stream<TodosState> _mapTodosLoadedToState() async* {
-    try {
-      final todos = await this.todosRepository.loadTodos();
-      yield TodosLoadSuccess(
-        todos,
-      );
-    } catch (_) {
-      yield TodosLoadFailure();
-    }
+    _todosSubscription?.cancel();
+    _todosSubscription = todosRepository.todos().listen(
+          (todos) => add(TodosUpdated(todos)),
+        );
   }
 
   Stream<TodosState> _mapTodoAddedToState(TodoAdded event) async* {
-    if (state is TodosLoadSuccess) {
-      final List<Todo> updatedTodos =
-          List.from((state as TodosLoadSuccess).todos)..add(event.todo);
-      yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
-    }
+    todosRepository.addNewTodo(event.todo);
   }
 
   Stream<TodosState> _mapTodoUpdatedToState(TodoUpdated event) async* {
-    if (state is TodosLoadSuccess) {
-      final List<Todo> updatedTodos =
-          (state as TodosLoadSuccess).todos.map((todo) {
-        return todo.id == event.todo.id ? event.todo : todo;
-      }).toList();
-      yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
-    }
+    todosRepository.updateTodo(event.todo);
   }
 
   Stream<TodosState> _mapTodoDeletedToState(TodoDeleted event) async* {
-    if (state is TodosLoadSuccess) {
-      final updatedTodos = (state as TodosLoadSuccess)
-          .todos
-          .where((todo) => todo.id != event.todo.id)
-          .toList();
-      yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
-    }
+    todosRepository.deleteTodo(event.todo);
   }
 
   Stream<TodosState> _mapToggleAllToState() async* {
@@ -78,8 +59,9 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           .todos
           .map((Todo todo) => todo.copyWith(complete: !allComplete))
           .toList();
-      yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
+      updatedTodos.forEach((updatedTodo) {
+        todosRepository.updateTodo(updatedTodo);
+      });
     }
   }
 
@@ -89,15 +71,10 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           .todos
           .where((todo) => !todo.complete)
           .toList();
-      yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
+      updatedTodos.forEach((completedTodo) {
+        todosRepository.deleteTodo(completedTodo);
+      });
     }
-  }
-
-  Future _saveTodos(List<Todo> todos) {
-    return todosRepository.saveTodos(
-      todos.map((todo) => todo).toList(),
-    );
   }
 
   Stream<TodosState> _mapToReorder(TodosReorder event) async* {
@@ -114,7 +91,16 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       updatedTodos.insert(newIndex, item);
 
       yield TodosLoadSuccess(updatedTodos);
-      _saveTodos(updatedTodos);
     }
+  }
+
+  Stream<TodosState> _mapTodosUpdateToState(TodosUpdated event) async* {
+    yield TodosLoadSuccess(event.todos);
+  }
+
+  @override
+  Future<void> close() {
+    _todosSubscription?.cancel();
+    return super.close();
   }
 }
