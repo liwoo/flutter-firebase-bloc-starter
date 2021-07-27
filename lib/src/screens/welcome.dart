@@ -1,3 +1,4 @@
+import 'package:firebase_bloc_starter/AppKeys.dart';
 import 'package:firebase_bloc_starter/src/screens/login.dart';
 import 'package:firebase_bloc_starter/src/screens/register.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              key: AppKeys.LoginButtonKey,
               onPressed: () {
                 showDialog(
                     context: context,
@@ -28,6 +30,7 @@ class WelcomePage extends StatelessWidget {
               child: Text("Login"),
             ),
             ElevatedButton(
+              key: AppKeys.RegisterButtonKey,
               onPressed: () {
                 showDialog(
                     context: context,

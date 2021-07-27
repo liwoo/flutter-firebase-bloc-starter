@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../AppKeys.dart';
 import 'google_button.dart';
 
 class RegisterForm extends StatelessWidget {
@@ -33,6 +34,7 @@ class RegisterForm extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               GoogleLoginButton(
+                key: AppKeys.GoogleButtonKey,
                 onPressed: () {
                   context.read<RegisterCubit>().logInWithGoogle();
                   Navigator.of(context).pop();

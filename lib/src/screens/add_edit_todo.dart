@@ -1,3 +1,4 @@
+import 'package:firebase_bloc_starter/AppKeys.dart';
 import 'package:firebase_bloc_starter/src/models/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -50,6 +51,7 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
+              key: AppKeys.TaskFieldKey,
               initialValue: isEditing ? widget.todo?.task : '',
               style: textTheme.headline5,
               decoration: InputDecoration(
@@ -59,6 +61,7 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
               onSaved: (value) => _task = value,
             ),
             TextFormField(
+              key: AppKeys.DetailFieldKey,
               initialValue: isEditing ? widget.todo?.note : '',
               maxLines: 10,
               style: textTheme.subtitle1,
@@ -69,6 +72,7 @@ class _AddEditTodoPageState extends State<AddEditTodoPage> {
               onSaved: (value) => _note = value,
             ),
             ElevatedButton(
+                key: AppKeys.SaveNoteButtonKey,
                 onPressed: () {
                   widget.onSave(_task!, _note!);
                   Navigator.pop(context);
