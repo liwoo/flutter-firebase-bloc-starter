@@ -11,6 +11,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:integration_test/integration_test.dart';
 
+var _sampleTodo = new Todo('sample todo', complete: false);
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -35,11 +37,43 @@ void main() {
       expect(find.text(titleText), findsOneWidget);
     },
   );
+  testWidgets("Testing checking off todo item", (WidgetTester tester) async {
+    await tester.pumpWidget(createApp());
+    await tester.tap(find.byKey(AppKeys.LoginButtonKey));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(AppKeys.GoogleButtonKey));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(Key("check_${_sampleTodo.id}")));
+    await tester.pumpAndSettle();
+  });
+  testWidgets("Testing editing todo item", (WidgetTester tester) async {
+    final titleText = 'Edit my life';
+    final detailText = 'No problem bro';
+
+    await tester.pumpWidget(createApp());
+    await tester.tap(find.byKey(AppKeys.LoginButtonKey));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(AppKeys.GoogleButtonKey));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(Key(_sampleTodo.id)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(AppKeys.TaskFieldKey), titleText);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byKey(AppKeys.DetailFieldKey), detailText);
+    await tester.tap(find.byKey(AppKeys.SaveNoteButtonKey));
+    await tester.pumpAndSettle();
+    await tester.idle();
+    // Re-render.
+    await tester.pump();
+    expect(find.text(titleText), findsOneWidget);
+  });
 }
 
 Widget createApp() {
   var collection = FakeFirebaseFirestore().collection("todos");
-  collection.add(Todo("Here").toEntity().toDocument());
+  collection.add(_sampleTodo.toEntity().toDocument());
   final authenticationRepository = AuthenticationRepository(
     googleSignIn: MockGoogleSignIn(),
     firebaseAuth: MockFirebaseAuth(),

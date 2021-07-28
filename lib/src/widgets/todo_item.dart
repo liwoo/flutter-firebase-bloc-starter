@@ -17,12 +17,14 @@ class TodoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
+          key: Key(todo.id),
           onTap: onTap,
           child: Container(
             padding: EdgeInsets.all(8),
             child: ListTile(
               title: Text(todo.task),
               leading: Checkbox(
+                key: Key("check_${todo.id}"),
                 value: todo.complete,
                 onChanged: onCheckboxChanged,
               ),
