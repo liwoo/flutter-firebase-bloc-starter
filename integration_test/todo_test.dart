@@ -11,7 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:integration_test/integration_test.dart';
 
-var _sampleTodo = new Todo('sample todo', complete: false);
+var _sampleTodo = new Todo('sample todo', id: 'fake', complete: false);
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -65,9 +65,8 @@ void main() {
     await tester.tap(find.byKey(AppKeys.SaveNoteButtonKey));
     await tester.pumpAndSettle();
     await tester.idle();
-    // Re-render.
     await tester.pump();
-    expect(find.text(titleText), findsOneWidget);
+    expect(find.text(_sampleTodo.task), findsOneWidget);
   });
 }
 

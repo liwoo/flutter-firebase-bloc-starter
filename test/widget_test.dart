@@ -5,19 +5,23 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
+import 'package:firebase_bloc_starter/src/blocs/todos/todos_bloc.dart';
+import 'package:firebase_bloc_starter/src/blocs/todos/todos_event.dart';
+import 'package:firebase_bloc_starter/src/blocs/todos/todos_state.dart';
+import 'package:firebase_bloc_starter/src/models/todo.dart';
+import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_bloc_starter/src/blocs/app/app_bloc.dart';
 import 'package:firebase_bloc_starter/src/models/user.dart';
-import 'package:firebase_bloc_starter/src/screens/home.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   late AppBloc appBloc;
+  late TodosBloc todosBloc;
   late User user;
+  var _sampleTodo = new Todo('sample todo', id: 'fake', complete: false);
 
   setUpAll(() {
     registerFallbackValue<AppEvent>(FakeAppEvent());
@@ -27,26 +31,26 @@ void main() {
   setUp(() {
     appBloc = MockAppBloc();
     user = MockUser();
+    var collection = FakeFirebaseFirestore().collection("todos");
+    collection.add(_sampleTodo.toEntity().toDocument());
+    todosBloc =
+        TodosBloc(todosRepository: TodosRepository(todoCollection: collection));
     when(() => user.email).thenReturn('test@gmail.com');
     when(() => user.name).thenReturn('John Doe');
     when(() => appBloc.state).thenReturn(AppState.authenticated(user));
   });
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    const appName = "My Sample App";
 
-    await tester.pumpWidget(
-      BlocProvider.value(
-        value: appBloc,
-        child: const MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: HomeScreen()),
-      ),
-    );
-    expect(find.text('John Doe'), findsOneWidget);
-    expect(find.text('Welcome to $appName'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  group("Todo bloc", () {
+    blocTest<TodosBloc, TodosState>('load todos',
+        build: () => todosBloc,
+        act: (bloc) => bloc.add(TodosLoaded()),
+        expect: () => [
+              TodosLoadSuccess([_sampleTodo])
+            ]);
+    blocTest<TodosBloc, TodosState>('delete todos',
+        build: () => todosBloc,
+        act: (bloc) => bloc.add(TodoDeleted(_sampleTodo)),
+        expect: () => []);
   });
 }
 
