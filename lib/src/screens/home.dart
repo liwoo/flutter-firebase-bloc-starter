@@ -3,7 +3,6 @@ import 'package:firebase_bloc_starter/src/screens/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/app/app_bloc.dart';
 import 'home_page.dart';
 import 'notification.dart';
 
@@ -20,28 +19,18 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeScreenContainer extends StatelessWidget {
-  final _pageNavigation = [
-    HomePage(),
-    NotificationsPage(),
-    SettingsPage(),
-  ];
   @override
   Widget build(BuildContext context) {
-    final user = context.select((AppBloc bloc) => bloc.state.user);
     return BlocBuilder<BottomNavCubit, int>(builder: (context, state) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.appName),
-          actions: <Widget>[
-            TextButton(
-              child:
-                  Text(user.name ?? '', style: TextStyle(color: Colors.white)),
-              onPressed: () =>
-                  context.read<AppBloc>().add(AppLogoutRequested()),
-            ),
+        body: IndexedStack(
+          index: state,
+          children: [
+            HomePage(),
+            NotificationsPage(),
+            SettingsPage(),
           ],
         ),
-        body: _pageNavigation[state],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: state,
           onTap: (int index) =>
