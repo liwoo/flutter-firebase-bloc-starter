@@ -1,7 +1,6 @@
-import 'package:firebase_bloc_starter/src/blocs/filtered_todos/filtered_todos_bloc.dart';
-import 'package:firebase_bloc_starter/src/blocs/filtered_todos/filtered_todos_state.dart';
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_bloc.dart';
 import 'package:firebase_bloc_starter/src/blocs/todos/todos_event.dart';
+import 'package:firebase_bloc_starter/src/blocs/todos/todos_state.dart';
 import 'package:firebase_bloc_starter/src/models/todo.dart';
 import 'package:firebase_bloc_starter/src/screens/details.dart';
 import 'package:firebase_bloc_starter/src/widgets/appbar.dart';
@@ -21,12 +20,12 @@ class HomePage extends StatelessWidget {
     return NavFragmentContainer(builder: (context) {
       return Scaffold(
         appBar: mainAppBar(context),
-        body: BlocBuilder<FilteredTodosBloc, FilteredTodosState>(
+        body: BlocBuilder<TodosBloc, TodosState>(
             builder: (context, state) {
-          if (state is FilteredTodosLoadInProgress) {
+          if (state is TodosLoadInProgress) {
             return LoadingIndicator();
-          } else if (state is FilteredTodosLoadSuccess) {
-            final todos = state.filteredTodos;
+          } else if (state is TodosLoadSuccess) {
+            final todos = state.todos;
             return ReorderableListView.builder(
                 itemCount: todos.length,
                 onReorder: (fromIndex, toIndex) {
