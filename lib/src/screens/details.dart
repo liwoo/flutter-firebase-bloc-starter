@@ -12,18 +12,17 @@ class DetailsPage extends StatelessWidget {
   const DetailsPage({Key? key, required this.id}) : super(key: key);
 
   static MaterialPageRoute page({required String id}) => MaterialPageRoute(
-        builder: (_) => DetailsPage(
-          id: id,
-        ),
+        builder: (_) => DetailsPage(id: id),
       );
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodosBloc, TodosState>(builder: (context, state) {
-      final Todo? todo = (state as TodosLoadSuccess)
-          .todos
-          .firstWhere((element) => element.id == this.id, orElse: null);
-      return Scaffold(
+    return BlocBuilder<TodosBloc, TodosState>(
+      builder: (context, state) {
+        final Todo? todo = (state as TodosLoadSuccess)
+            .todos
+            .firstWhere((element) => element.id == this.id, orElse: null);
+        return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.todoDetails),
             actions: [
@@ -44,42 +43,51 @@ class DetailsPage extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: ListView(
                     children: [
-                      Row(children: [
-                        Checkbox(
-                            value: todo.complete,
-                            onChanged: (complete) {
-                              BlocProvider.of<TodosBloc>(context).add(
-                                TodoUpdated(
-                                  todo.copyWith(complete: !todo.complete),
-                                ),
-                              );
-                            }),
-                        Expanded(
-                          child: Text(
-                            todo.task,
-                            style: Theme.of(context).textTheme.headline5,
+                      Row(
+                        children: [
+                          Checkbox(
+                              value: todo.complete,
+                              onChanged: (complete) {
+                                BlocProvider.of<TodosBloc>(context).add(
+                                  TodoUpdated(
+                                    todo.copyWith(complete: !todo.complete),
+                                  ),
+                                );
+                              }),
+                          Expanded(
+                            child: Text(
+                              todo.task,
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
                           ),
-                        ),
-                      ]),
+                        ],
+                      ),
                       Text(todo.note),
                     ],
                   ),
                 ),
           floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.edit),
-              onPressed: todo == null
-                  ? null
-                  : () {
-                      Navigator.of(context).push(AddEditTodoPage.page(
+            child: Icon(Icons.edit),
+            onPressed: todo == null
+                ? null
+                : () {
+                    Navigator.of(context).push(
+                      AddEditTodoPage.page(
                         onSave: (String task, String note) {
                           BlocProvider.of<TodosBloc>(context).add(
-                            TodoUpdated(todo.copyWith(task: task, note: note)),
+                            TodoUpdated(
+                              todo.copyWith(task: task, note: note),
+                            ),
                           );
                         },
                         editing: true,
                         todo: todo,
-                      ));
-                    }));
-    });
+                      ),
+                    );
+                  },
+          ),
+        );
+      },
+    );
   }
 }

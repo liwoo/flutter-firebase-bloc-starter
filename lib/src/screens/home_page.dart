@@ -20,8 +20,7 @@ class HomePage extends StatelessWidget {
     return NavFragmentContainer(builder: (context) {
       return Scaffold(
         appBar: mainAppBar(context),
-        body: BlocBuilder<TodosBloc, TodosState>(
-            builder: (context, state) {
+        body: BlocBuilder<TodosBloc, TodosState>(builder: (context, state) {
           if (state is TodosLoadInProgress) {
             return LoadingIndicator();
           } else if (state is TodosLoadSuccess) {

@@ -14,7 +14,8 @@ class RegisterDialog extends StatelessWidget {
     return Container(
         height: 400,
         child: BlocProvider(
-          create: (_) => RegisterCubit(context.read<AuthenticationRepository>()),
+          create: (_) =>
+              RegisterCubit(context.read<AuthenticationRepository>()),
           child: const RegisterForm(),
         ));
   }
