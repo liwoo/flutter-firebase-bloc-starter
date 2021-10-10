@@ -1,3 +1,4 @@
+import 'package:firebase_bloc_starter/AppKeys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
@@ -33,6 +34,7 @@ class LoginForm extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               GoogleLoginButton(
+                key: AppKeys.GoogleButtonKey,
                 onPressed: () {
                   context.read<LoginCubit>().logInWithGoogle();
                   Navigator.of(context).pop();
