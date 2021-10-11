@@ -1,6 +1,7 @@
 import 'package:firebase_bloc_starter/src/blocs/app/theme_cubit.dart';
 import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
 import 'package:firebase_bloc_starter/src/themes.dart';
+import 'package:firebase_bloc_starter/src/widgets/notifier.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,7 +42,9 @@ class App extends StatelessWidget {
                 ..add(TodosLoaded())),
           BlocProvider(create: (_) => ThemeCubit(ThemeMode.system))
         ],
-        child: const AppView(),
+        child: Notifier(
+          child: const AppView(),
+        ),
       ),
     );
   }

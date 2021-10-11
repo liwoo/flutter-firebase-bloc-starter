@@ -9,6 +9,16 @@ Opinion Starter Project with Firebase and Bloc
 - Fill out the [OAuth consent screen](https://console.developers.google.com/apis/credentials/consent) 
 - Add ```.../auth/userinfo.email``` and ```.../auth/userinfo.profile``` scopes
 - Activate the google login method in the firebase console
+## Firebase Notification
+### Intergration
+- ### Android Intergration
+    Android intergration to firebase does not need any additional steps.
+- ### IOS Intergration
+    iOS & macOS require additional configuration before you can start receiving messages through Firebase, [Setup instructions](https://firebase.flutter.dev/docs/messaging/apple-integration)
+### Handling Messages
+Depending on the device state messages are handled differently. These states are Foreground, Background and Terminated.
+#### Foreground
+#### Background
 ### Localization
 The Localisation is using the ``flutter_localizations`` and ``intl`` packages.
 
