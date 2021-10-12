@@ -44,6 +44,8 @@ dependencies:
   fake_cloud_firestore: ^1.1.2
   google_sign_in_mocks: ^0.2.1
   firebase_auth_mocks: ^0.8.0
+  flutter_local_notifications: ^8.1.1+1
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:

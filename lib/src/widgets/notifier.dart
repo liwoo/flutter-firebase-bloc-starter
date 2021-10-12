@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:firebase_bloc_starter/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Notifier extends StatefulWidget {
   final Widget child;
@@ -19,7 +21,6 @@ class _NotifierState extends State<Notifier> {
   @override
   void initState() {
     super.initState();
-    // Todo: Handle notication permission on IOS and web
 
     _fcm.getToken().then(setToken);
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
@@ -28,10 +29,18 @@ class _NotifierState extends State<Notifier> {
     // Message received while in foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
 
-      if (notification != null && android != null && !kIsWeb) {
-        //
+      if (notification != null) {
+        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channel.description,
+          icon: 'launch_background',
+        );
+        NotificationDetails platformChannelSpecifics =
+            NotificationDetails(android: androidPlatformChannelSpecifics);
+        flutterLocalNotificationsPlugin.show(notification.hashCode,
+            notification.title, notification.body, platformChannelSpecifics);
         _handleOnMessage(message);
       }
     });
@@ -56,7 +65,7 @@ class _NotifierState extends State<Notifier> {
     return widget.child;
   }
 
-  _handleOnMessage(RemoteMessage message) {}
+  _handleOnMessage(RemoteMessage message) async {}
 
   void setToken(String? value) {}
 }

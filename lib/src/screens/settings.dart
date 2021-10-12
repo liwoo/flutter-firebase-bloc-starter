@@ -16,11 +16,22 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            NotificationToggle(),
             ThemeSwitcher(),
           ],
         ),
       ),
     );
+  }
+}
+
+class NotificationToggle extends StatelessWidget {
+  const NotificationToggle({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SettingItem(
+        iconData: Icons.notification_important, text: "Notification", current: "off");
   }
 }
 
@@ -76,32 +87,55 @@ class ThemeSwitcher extends StatelessWidget {
                 );
               });
         },
-        child: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.wb_sunny,
-                  color: Theme.of(context).accentColor,
-                ),
-                SizedBox(
-                  width: 12,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Change theme"),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Text(
-                      themeName(context.read<ThemeCubit>().state),
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  ],
-                )
-              ],
-            )),
+        child: SettingItem(
+          iconData: Icons.wb_sunny,
+          text: "Change theme",
+          current: themeName(context.read<ThemeCubit>().state),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingItem extends StatelessWidget {
+  final IconData iconData;
+  final String text;
+  final String current;
+
+  const SettingItem(
+      {Key? key,
+      required this.iconData,
+      required this.current,
+      required this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Row(
+        children: [
+          Icon(
+            iconData,
+            color: Theme.of(context).accentColor,
+          ),
+          SizedBox(
+            width: 12,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(text),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                current,
+                style: Theme.of(context).textTheme.caption,
+              )
+            ],
+          )
+        ],
       ),
     );
   }
