@@ -1,3 +1,5 @@
+import 'package:firebase_bloc_starter/src/blocs/app/notification_cubit.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/notification_state.dart';
 import 'package:firebase_bloc_starter/src/blocs/app/theme_cubit.dart';
 import 'package:firebase_bloc_starter/src/widgets/appbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +18,8 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            NotificationToggle(),
             ThemeSwitcher(),
+            NotificationToggle(),
           ],
         ),
       ),
@@ -30,8 +32,20 @@ class NotificationToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SettingItem(
-        iconData: Icons.notification_important, text: "Notification", current: "off");
+    return BlocBuilder<NotificationCubit, NotificationState>(
+        builder: (context, state) {
+      return Container(
+        child: Row(
+          children: [
+            Switch(
+                value: state.toggled,
+                onChanged: (current) {
+                  context.read<NotificationCubit>().toggleNotification(current);
+                })
+          ],
+        ),
+      );
+    });
   }
 }
 

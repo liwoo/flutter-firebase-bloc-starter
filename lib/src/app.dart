@@ -1,3 +1,5 @@
+import 'package:firebase_bloc_starter/src/blocs/app/notification_cubit.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/notification_state.dart';
 import 'package:firebase_bloc_starter/src/blocs/app/theme_cubit.dart';
 import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
 import 'package:firebase_bloc_starter/src/themes.dart';
@@ -38,9 +40,15 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider(
-              create: (_) => TodosBloc(todosRepository: _todosRepository)
-                ..add(TodosLoaded())),
-          BlocProvider(create: (_) => ThemeCubit(ThemeMode.system))
+            create: (_) => TodosBloc(todosRepository: _todosRepository)
+              ..add(TodosLoaded()),
+          ),
+          BlocProvider(create: (_) => ThemeCubit(ThemeMode.system)),
+          BlocProvider(
+            create: (_) => NotificationCubit(
+              NotificationState.empty(),
+            ),
+          )
         ],
         child: Notifier(
           child: const AppView(),

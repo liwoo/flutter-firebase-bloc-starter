@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_bloc_starter/main.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/notification_cubit.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Notifier extends StatefulWidget {
   final Widget child;
@@ -54,7 +56,7 @@ class _NotifierState extends State<Notifier> {
     _fcm.getInitialMessage().then((RemoteMessage? message) => {
           if (message != null)
             {
-              // Todo: Do something with the initial message from wake
+              // TODO: Do something with the initial message from wake
               _handleOnMessage(message)
             }
         });
@@ -67,5 +69,10 @@ class _NotifierState extends State<Notifier> {
 
   _handleOnMessage(RemoteMessage message) async {}
 
-  void setToken(String? value) {}
+  void setToken(String? value) {
+    // TODO: Save FCM Token somewhere
+    if (value != null) {
+      context.read<NotificationCubit>().tokenChanged(value);
+    }
+  }
 }
