@@ -38,10 +38,12 @@ class NotificationToggle extends StatelessWidget {
         child: Row(
           children: [
             Switch(
-                value: state.toggled,
-                onChanged: (current) {
-                  context.read<NotificationCubit>().toggleNotification(current);
-                })
+              value: state.toggled,
+              onChanged: (current) {
+                context.read<NotificationCubit>().toggleNotification(current);
+              },
+            ),
+            Text("Nofications")
           ],
         ),
       );

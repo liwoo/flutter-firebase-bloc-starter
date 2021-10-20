@@ -38,14 +38,13 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   String _constructFCMPayload(NotificationState state) {
     return jsonEncode({
-      "Message": {
-        'to': state.token,
-        'data': {'via': 'FlutterFire Cloud Messaging!!!', 'count': ""},
-        'notification': {
-          'title': 'Flutter Bloc starter',
-          'body': 'You have ',
-        },
-      }
+      "to": state.token,
+      "notification": {
+        "title": "Notification ${(state.toggled ? "On" : "Off")}",
+        "body": "This is the notification and all that.",
+        "click_action": "NOTIFICATION_CLICK"
+      },
+      "data": {"sample": "data"}
     });
   }
 }
