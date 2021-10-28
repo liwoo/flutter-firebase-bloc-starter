@@ -46,6 +46,7 @@ dependencies:
   firebase_auth_mocks: ^0.8.0
   flutter_local_notifications: ^8.1.1+1
   http: ^0.13.3
+  mixpanel_flutter: ^1.3.1
 
 dev_dependencies:
   flutter_test:

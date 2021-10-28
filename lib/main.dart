@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_bloc_starter/src/repositories/event_repository/events_repository.dart';
 import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -61,7 +62,9 @@ void initNotifications() async {
 }
 
 void main() async {
-  Bloc.observer = AppBlocObserver();
+  final eventsRepository = EventsRepository();
+  await eventsRepository.initEvents();
+  Bloc.observer = AppBlocObserver(repository: eventsRepository);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
