@@ -9,7 +9,7 @@ class AppBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    repository.track("Event", {"event": event.toString()});
+    repository.track("Event", {"event": event.runtimeType.toString()});
     print(event);
   }
 
