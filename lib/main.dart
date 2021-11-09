@@ -62,10 +62,11 @@ void initNotifications() async {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   final eventsRepository = EventsRepository();
   await eventsRepository.initEvents();
   Bloc.observer = AppBlocObserver(repository: eventsRepository);
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   initNotifications();
