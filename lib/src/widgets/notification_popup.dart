@@ -8,23 +8,21 @@ class NotificationPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Text(
-                "Incoming notification",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              Divider(),
-              Text(title),
-              Text(body),
-            ],
-          ),
-        ),
+    return AlertDialog(
+      title: Text("Incoming notification"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(title),
+          Text(body),
+        ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'OK'),
+          child: const Text('OK'),
+        ),
+      ],
     );
   }
 }

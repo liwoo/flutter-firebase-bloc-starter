@@ -54,9 +54,7 @@ class App extends StatelessWidget {
             create: (_) => NotificationHandlerCubit(),
           ),
         ],
-        child: Notifier(
-          child: const AppView(),
-        ),
+        child: const AppView(),
       ),
     );
   }
@@ -77,9 +75,11 @@ class AppView extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: context.select((ThemeCubit cubit) => cubit.state),
-      home: FlowBuilder<AppStatus>(
-        state: context.select((AppBloc bloc) => bloc.state.status),
-        onGeneratePages: onGenerateAppViewPages,
+      home: Notifier(
+        child: FlowBuilder<AppStatus>(
+          state: context.select((AppBloc bloc) => bloc.state.status),
+          onGeneratePages: onGenerateAppViewPages,
+        ),
       ),
     );
   }

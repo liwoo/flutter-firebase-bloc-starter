@@ -58,21 +58,20 @@ class _NotifierState extends State<Notifier> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationHandlerCubit, NotificationState>(
-        builder: (context, state) {
-      return Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: [
-          widget.child,
-          if (state is NotificationReceivedState)
-            NotificationPopup(
+    return BlocListener<NotificationHandlerCubit, NotificationState>(
+      listener: (context, state) {
+        if (state is NotificationReceivedState) {
+          showDialog(
+            context: context,
+            builder: (context) => NotificationPopup(
               title: state.title,
               body: state.body,
             ),
-        ],
-      );
-    });
+          );
+        }
+      },
+      child: widget.child,
+    );
   }
 
   _handleOnMessage(RemoteMessage message) async {
