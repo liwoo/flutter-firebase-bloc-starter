@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_bloc_starter/main.dart';
 import 'package:firebase_bloc_starter/src/blocs/app/notification_cubit.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/notification_handler_cubit.dart';
+import 'package:firebase_bloc_starter/src/blocs/app/notification_state.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'notification_popup.dart';
 
 class Notifier extends StatefulWidget {
   final Widget child;
@@ -23,7 +26,6 @@ class _NotifierState extends State<Notifier> {
   @override
   void initState() {
     super.initState();
-
     _fcm.getToken().then(setToken);
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
     _tokenStream.listen(setToken);
@@ -33,16 +35,7 @@ class _NotifierState extends State<Notifier> {
       RemoteNotification? notification = message.notification;
 
       if (notification != null) {
-        var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channel.description,
-          icon: 'launch_background',
-        );
-        NotificationDetails platformChannelSpecifics =
-            NotificationDetails(android: androidPlatformChannelSpecifics);
-        flutterLocalNotificationsPlugin.show(notification.hashCode,
-            notification.title, notification.body, platformChannelSpecifics);
+        notificationService.showNotification(notification);
         _handleOnMessage(message);
       }
     });
@@ -50,6 +43,7 @@ class _NotifierState extends State<Notifier> {
     // User notification click event from a background state (not terminated).
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
+      _handleOnMessage(message);
     });
 
     // If the app has be opened terminated state using notification
@@ -64,10 +58,28 @@ class _NotifierState extends State<Notifier> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return BlocBuilder<NotificationHandlerCubit, NotificationState>(
+        builder: (context, state) {
+      return Stack(
+        alignment: Alignment.center,
+        fit: StackFit.expand,
+        children: [
+          widget.child,
+          if (state is NotificationReceivedState)
+            NotificationPopup(
+              title: state.title,
+              body: state.body,
+            ),
+        ],
+      );
+    });
   }
 
-  _handleOnMessage(RemoteMessage message) async {}
+  _handleOnMessage(RemoteMessage message) async {
+    // TODO: Parse the notification data, as for now just using the notification info
+    context.read<NotificationHandlerCubit>().emit(new NotificationReceivedState(
+        message.notification?.title ?? "", message.notification?.body ?? ""));
+  }
 
   void setToken(String? value) {
     // TODO: Save FCM Token somewhere

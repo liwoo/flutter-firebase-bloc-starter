@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final textTheme = GoogleFonts.latoTextTheme(textTheme).copyWith(
-  bodyText1: GoogleFonts.oswald(textStyle: textTheme.body1),
-);
+final textTheme = GoogleFonts.latoTextTheme();
 
 final lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: Colors.cyan,
   ),
-  textTheme:  textTheme,
+  textTheme: textTheme,
   brightness: Brightness.light,
   primaryColor: Color(0xff00bcd4),
   primaryColorBrightness: Brightness.light,
@@ -47,7 +45,7 @@ final darkTheme = ThemeData(
       900: Color(0xff191919)
     }),
   ),
-  textTheme:  textTheme,
+  textTheme: textTheme,
   brightness: Brightness.dark,
   primaryColor: Color(0xff212121),
   primaryColorLight: Color(0xff9e9e9e),

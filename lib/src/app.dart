@@ -8,6 +8,7 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'blocs/app/notification_handler_cubit.dart';
 import 'blocs/todos/todos_bloc.dart';
 import 'blocs/todos/todos_event.dart';
 import 'routes.dart';
@@ -46,9 +47,12 @@ class App extends StatelessWidget {
           BlocProvider(create: (_) => ThemeCubit(ThemeMode.system)),
           BlocProvider(
             create: (_) => NotificationCubit(
-              NotificationState.empty(),
+              NotificationStatusState.empty(),
             ),
-          )
+          ),
+          BlocProvider(
+            create: (_) => NotificationHandlerCubit(),
+          ),
         ],
         child: Notifier(
           child: const AppView(),
