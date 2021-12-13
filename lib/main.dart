@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:firebase_bloc_starter/src/repositories/event_repository/events_repository.dart';
 import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
