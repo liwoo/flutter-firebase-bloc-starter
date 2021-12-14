@@ -20,7 +20,7 @@ class SettingItem extends StatelessWidget {
         children: [
           Icon(
             iconData,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
           SizedBox(
             width: 12,
