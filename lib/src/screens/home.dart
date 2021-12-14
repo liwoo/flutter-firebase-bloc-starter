@@ -1,5 +1,5 @@
 import 'package:firebase_bloc_starter/src/blocs/home/bottom_nav_cubit.dart';
-import 'package:firebase_bloc_starter/src/screens/settings.dart';
+import 'package:firebase_bloc_starter/src/screens/settings/settings.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
