@@ -5,10 +5,8 @@ import 'package:firebase_bloc_starter/src/app.dart';
 import 'package:firebase_bloc_starter/src/models/todo.dart';
 import 'package:firebase_bloc_starter/src/repositories/auth_repository/authentication_repository.dart';
 import 'package:firebase_bloc_starter/src/repositories/todos_repository/todos_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:integration_test/integration_test.dart';
 
 var _sampleTodo = new Todo('sample todo', id: 'fake', complete: false);
@@ -74,7 +72,6 @@ Widget createApp() {
   var collection = FakeFirebaseFirestore().collection("todos");
   collection.add(_sampleTodo.toEntity().toDocument());
   final authenticationRepository = AuthenticationRepository(
-    googleSignIn: MockGoogleSignIn(),
     firebaseAuth: MockFirebaseAuth(),
   );
   final todosRepository = TodosRepository(todoCollection: collection);
