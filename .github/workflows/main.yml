@@ -26,8 +26,15 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - uses: iamsauravsharma/create-dotenv@v1.2.0
+        with:
+          file-name: '.env' # Optional (default : '.env')
+        env: # env available for only this steps
+          IS_SERVER: true
+          FCM_WEB_LINK: ${{ secrets.FCM_WEB_LINK }}
+          F_SERVER_KEY: ${{ secrets.F_SERVER_KEY }}
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.2.3'
+          flutter-version: '2.8'
       - run: flutter pub get
       - run: flutter test

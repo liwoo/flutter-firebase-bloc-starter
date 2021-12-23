@@ -1,15 +1,22 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_bloc_starter/src/repositories/event_repository/events_repository.dart';
 
 class AppBlocObserver extends BlocObserver {
+  EventsRepository repository;
+
+  AppBlocObserver({required this.repository});
+
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
+    repository.track("Event", {"event": event.runtimeType.toString()});
     print(event);
   }
 
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     print(error);
+    repository.track("Error", {"event": error});
     super.onError(bloc, error, stackTrace);
   }
 
