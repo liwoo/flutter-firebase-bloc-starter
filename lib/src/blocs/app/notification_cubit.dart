@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'notification_state.dart';
 
-class NotificationCubit extends Cubit<NotificationStatusState> {
-  NotificationCubit(NotificationStatusState state) : super(state);
+class NotificationCubit extends Cubit<NotificationState> {
+  NotificationCubit() : super(NotificationState.empty());
 
   void toggleNotification(bool toggle) {
-    var newState = state.copyWith(toggled: toggle);
+    var newState = toggle
+        ? new NotificationOnState(state.token)
+        : new NotificationOffState(state.token);
     emit(newState);
     _sendPush(newState);
   }
@@ -18,7 +20,7 @@ class NotificationCubit extends Cubit<NotificationStatusState> {
     emit(state.copyWith(token: token));
   }
 
-  Future<void> _sendPush(NotificationStatusState state) async {
+  Future<void> _sendPush(NotificationState state) async {
     if (state.token == null) {
       return null;
     }
@@ -37,11 +39,12 @@ class NotificationCubit extends Cubit<NotificationStatusState> {
     }
   }
 
-  String _constructFCMPayload(NotificationStatusState state) {
+  String _constructFCMPayload(NotificationState state) {
     return jsonEncode({
       "to": state.token,
       "notification": {
-        "title": "Notification ${(state.toggled ? "On" : "Off")}",
+        "title":
+            "Notification ${(state is NotificationOnState ? "On" : "Off")}",
         "body": "This is the notification and all that.",
         "click_action": "NOTIFICATION_CLICK"
       },

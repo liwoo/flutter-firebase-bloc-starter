@@ -46,9 +46,7 @@ class App extends StatelessWidget {
           ),
           BlocProvider(create: (_) => ThemeCubit(ThemeMode.system)),
           BlocProvider(
-            create: (_) => NotificationCubit(
-              NotificationStatusState.empty(),
-            ),
+            create: (_) => NotificationCubit(),
           ),
           BlocProvider(
             create: (_) => NotificationHandlerCubit(),

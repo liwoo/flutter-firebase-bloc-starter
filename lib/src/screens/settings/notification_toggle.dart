@@ -8,13 +8,13 @@ class NotificationToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationCubit, NotificationStatusState>(
+    return BlocBuilder<NotificationCubit, NotificationState>(
         builder: (context, state) {
       return Container(
         child: Row(
           children: [
             Switch(
-              value: state.toggled,
+              value: state is NotificationOnState,
               onChanged: (current) {
                 context.read<NotificationCubit>().toggleNotification(current);
               },

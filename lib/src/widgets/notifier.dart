@@ -58,14 +58,14 @@ class _NotifierState extends State<Notifier> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NotificationHandlerCubit, NotificationState>(
+    return BlocListener<NotificationHandlerCubit, RemoteMessage?>(
       listener: (context, state) {
-        if (state is NotificationReceivedState) {
+        if (state != null) {
           showDialog(
             context: context,
             builder: (context) => NotificationPopup(
-              title: state.title,
-              body: state.body,
+              title: state.notification?.title ?? "",
+              body: state.notification?.body ?? "",
             ),
           );
         }
@@ -76,8 +76,7 @@ class _NotifierState extends State<Notifier> {
 
   _handleOnMessage(RemoteMessage message) async {
     // TODO: Parse the notification data, as for now just using the notification info
-    context.read<NotificationHandlerCubit>().emit(new NotificationReceivedState(
-        message.notification?.title ?? "", message.notification?.body ?? ""));
+    context.read<NotificationHandlerCubit>().handleNotification(message);
   }
 
   void setToken(String? value) {

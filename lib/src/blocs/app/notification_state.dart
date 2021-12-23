@@ -1,36 +1,26 @@
 import 'package:equatable/equatable.dart';
 
 class NotificationState extends Equatable {
-  NotificationState();
-  @override
-  List<Object?> get props => [];
-}
-
-class NotificationStatusState extends NotificationState {
   final String? token;
-  final bool toggled;
 
-  NotificationStatusState(this.token, this.toggled);
+  NotificationState(this.token);
 
   @override
-  List<Object?> get props => [this.token, this.toggled];
+  List<Object?> get props => [this.token];
 
-  NotificationStatusState copyWith({bool? toggled, String? token}) {
-    return NotificationStatusState(
-        token ?? this.token, toggled ?? this.toggled);
+  NotificationState copyWith({String? token}) {
+    return NotificationState(token ?? this.token);
   }
 
-  static NotificationStatusState empty() {
-    return NotificationStatusState("", true);
+  static NotificationState empty() {
+    return NotificationState("");
   }
 }
 
-class NotificationReceivedState extends NotificationState {
-  final String title;
-  final String body;
+class NotificationOnState extends NotificationState {
+  NotificationOnState(String? token) : super(token);
+}
 
-  NotificationReceivedState(this.title, this.body);
-
-  @override
-  List<Object?> get props => [this.body, this.title];
+class NotificationOffState extends NotificationState {
+  NotificationOffState(String? token) : super(token);
 }
