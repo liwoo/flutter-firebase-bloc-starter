@@ -8,7 +8,7 @@ class TodosRepository {
       : _todoCollection =
             todoCollection ?? FirebaseFirestore.instance.collection('todos');
   Future<void> addNewTodo(Todo todo) {
-    return _todoCollection.doc(todo.id).set((todo.toEntity().toDocument()));
+    return _todoCollection.doc(todo.id).set((todo.toEntity().toJson()));
   }
 
   Future<void> deleteTodo(Todo todo) async {
@@ -18,12 +18,12 @@ class TodosRepository {
   Stream<List<Todo>> todos() {
     return _todoCollection.snapshots().map((snapshot) {
       return snapshot.docs
-          .map((doc) => Todo.fromEntity(TodoEntity.fromSnapshot(doc)))
+          .map((doc) => Todo.fromEntity(TodoEntity.fromJson(doc.data())))
           .toList();
     });
   }
 
   Future<void> updateTodo(Todo todo) {
-    return _todoCollection.doc(todo.id).update(todo.toEntity().toDocument());
+    return _todoCollection.doc(todo.id).update(todo.toEntity().toJson());
   }
 }

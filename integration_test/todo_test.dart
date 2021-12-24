@@ -70,7 +70,7 @@ void main() {
 
 Widget createApp() {
   var collection = FakeFirebaseFirestore().collection("todos");
-  collection.add(_sampleTodo.toEntity().toDocument());
+  collection.add(_sampleTodo.toEntity().toJson());
   final authenticationRepository = AuthenticationRepository(
     firebaseAuth: MockFirebaseAuth(),
   );

@@ -62,7 +62,7 @@ class DetailsPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(todo.note),
+                      Text(todo.note ?? ""),
                     ],
                   ),
                 ),

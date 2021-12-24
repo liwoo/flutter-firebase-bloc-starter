@@ -9,6 +9,7 @@ import 'package:firebase_bloc_starter/src/widgets/nav_fragment.dart';
 import 'package:firebase_bloc_starter/src/widgets/todo_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import 'add_edit_todo.dart';
 
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
             Navigator.of(context).push(AddEditTodoPage.page(
                 onSave: (String task, String note) {
                   BlocProvider.of<TodosBloc>(context).add(
-                    TodoAdded(Todo(task, note: note)),
+                    TodoAdded(Todo(task, note: note, id: Uuid().v4())),
                   );
                 },
                 editing: false));
