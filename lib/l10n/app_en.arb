@@ -1,4 +1,9 @@
 {
+    "welcomeSignUp": "Welcome to FlutterFire UI! Please create an account to continue",
+    "welcomeSignIn": "Welcome to FlutterFire UI! Please sign in to continue.",
+    "termsSignUp": "By registering, you agree to our terms and conditions.",
+    "termsSignIn": "By signing in, you agree to our terms and conditions.",
+
     "appName": "My Sample App",
     "login": "Login",
     "register": "Register",

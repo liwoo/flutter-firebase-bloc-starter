@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutterfire_ui/auth.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthPage extends StatelessWidget {
   static Page page() => const MaterialPage<void>(child: AuthPage());
@@ -36,8 +37,8 @@ class AuthPage extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 8),
           child: Text(
             action == AuthAction.signIn
-                ? 'Welcome to FlutterFire UI! Please sign in to continue.'
-                : 'Welcome to FlutterFire UI! Please create an account to continue',
+                ? AppLocalizations.of(context)!.welcomeSignIn
+                : AppLocalizations.of(context)!.welcomeSignUp,
           ),
         );
       },
@@ -47,8 +48,8 @@ class AuthPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 16),
             child: Text(
               action == AuthAction.signIn
-                  ? 'By signing in, you agree to our terms and conditions.'
-                  : 'By registering, you agree to our terms and conditions.',
+                  ? AppLocalizations.of(context)!.termsSignIn
+                  : AppLocalizations.of(context)!.termsSignUp,
               style: const TextStyle(color: Colors.grey),
             ),
           ),
