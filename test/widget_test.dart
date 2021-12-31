@@ -32,7 +32,7 @@ void main() {
     appBloc = MockAppBloc();
     user = MockUser();
     var collection = FakeFirebaseFirestore().collection("todos");
-    collection.add(_sampleTodo.toEntity().toDocument());
+    collection.add(_sampleTodo.toEntity().toJson());
     todosBloc =
         TodosBloc(todosRepository: TodosRepository(todoCollection: collection));
     when(() => user.email).thenReturn('test@gmail.com');

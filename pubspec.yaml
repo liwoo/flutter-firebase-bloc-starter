@@ -58,10 +58,16 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutterfire_ui: ^0.2.0+2
   flex_color_scheme: ^4.1.1
+  freezed_annotation: 
+  json_annotation:
+  flutter_hooks: ^0.18.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  freezed:
+  json_serializable:
+  build_runner:
   mocktail: ^0.1.1
   bloc_test: ^8.0.0
   integration_test:
